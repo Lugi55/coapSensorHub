@@ -65,6 +65,8 @@ void parser_set_psModule7(sModule_t *_psModule7){
 //////////////////////
 void parser_parseCanMsg(tCANMsgObject sCANMessage){
     switch(sCANMessage.ui32MsgID){
+        case 0x80:
+            break;
         case 0x1E3:
                 parser_parse1E3(sCANMessage);
             break;

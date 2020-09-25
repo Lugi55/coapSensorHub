@@ -36,7 +36,6 @@ void can_Init(uint32_t ui32SysClock){
     sCANMessage.ui32MsgLen = 8;
     sCANMessage.pui8MsgData = pui8MsgData;
     CANMessageSet(CAN0_BASE, 1, &sCANMessage, MSG_OBJ_TYPE_RX);
-    MAP_IntPrioritySet(INT_CAN0, 0xF0);
     UARTprintf("canInit\n");
 }
 
@@ -102,7 +101,12 @@ eFifoStatus_t can_FifoPush(tCANMsgObject sCANMessage){
        ( myFifo.read == 0 && myFifo.write + 1 == BUFFER_SIZE ) )
     return FIFO_FAIL; // voll
 
-  myFifo.sCANMessage[myFifo.write] = sCANMessage;
+  myFifo.sCANMessage[myFifo.write].ui32MsgID = sCANMessage.ui32MsgID;
+  myFifo.sCANMessage[myFifo.write].ui32MsgIDMask = sCANMessage.ui32MsgIDMask;
+  myFifo.sCANMessage[myFifo.write].ui32Flags = sCANMessage.ui32Flags;
+  myFifo.sCANMessage[myFifo.write].ui32MsgLen = sCANMessage.ui32MsgLen;
+  myFifo.sCANMessage[myFifo.write].pui8MsgData = sCANMessage.pui8MsgData;
+  
   myFifo.write++;
   if (myFifo.write >= BUFFER_SIZE)
       myFifo.write = 0;
@@ -123,6 +127,7 @@ eFifoStatus_t can_FifoPop(tCANMsgObject *sCANMessage){
   return FIFO_SUCCESS;
 }
 
+
 //////////////////////
 //Set Red LED
 //////////////////////
@@ -133,7 +138,6 @@ void can_SetLedGreen2(bool s){
     else{
         GPIOPinWrite(GPIO_PORTK_BASE, GPIO_PIN_0, 0x0);
     }
-
 }
 
 //////////////////////
@@ -146,7 +150,6 @@ void can_SetLedRed(bool s){
     else{
         GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_4, 0x0);
     }
-
 }
 
 //////////////////////
