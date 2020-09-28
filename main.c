@@ -166,6 +166,7 @@ lwIPHostTimerHandler(void)
             UARTprintf("IP Address: ");
             DisplayIPAddress(ui32NewIPAddress);
             UARTprintf("\nCoap Server is ready\n");
+            can_Enable();
         }
 
         //
@@ -310,7 +311,7 @@ main(void)
     endpoint_setup();
     udp_echo_init();
     can_Init(g_ui32SysClock);
-    can_Enable();
+
 
 
     tCANMsgObject sCANMessage;
@@ -328,7 +329,6 @@ main(void)
 void udp_echo_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, struct ip_addr *addr, u16_t port){
     if (p != NULL) {
         can_Disable();
-        IntDisable(INT_EMAC0);
         can_SetLedGreen1(true);
         int rc;
         uint16_t size = 1500;
@@ -343,12 +343,12 @@ void udp_echo_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, struct ip_add
             can_SetLedRed(true);
             UARTprintf("coap_build failed rc=%i\n",rc);
         }
+        pbuf_free(p);
         p=pbuf_alloc(PBUF_TRANSPORT, size, PBUF_RAM);
         memcpy(p->payload, buffer, size);
         udp_sendto(pcb, p, addr, port);
         pbuf_free(p);
         can_Enable();
-        IntEnable(INT_EMAC0);
     }
 }
 
