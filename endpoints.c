@@ -783,8 +783,9 @@ void build_rsp(void){
     uint16_t len = rsplen;
     const coap_endpoint_t *ep = endpoints;
     int i;
+    int n;
     len--;
-    while(NULL != ep->handler)
+    for(n = 0; n<30; n++)
     {
         if (NULL == ep->core_attr) {
             ep++;
