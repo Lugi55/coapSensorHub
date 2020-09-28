@@ -102,7 +102,13 @@ eFifoStatus_t can_FifoPush(tCANMsgObject sCANMessage){
        ( myFifo.read == 0 && myFifo.write + 1 == BUFFER_SIZE ) )
     return FIFO_FAIL; // voll
 
-  myFifo.sCANMessage[myFifo.write] = sCANMessage;
+
+  myFifo.sCANMessage[myFifo.write].ui32MsgID = sCANMessage.ui32MsgID;
+  myFifo.sCANMessage[myFifo.write].ui32MsgIDMask = sCANMessage.ui32MsgIDMask;
+  myFifo.sCANMessage[myFifo.write].ui32Flags = sCANMessage.ui32Flags;
+  myFifo.sCANMessage[myFifo.write].ui32MsgLen = sCANMessage.ui32MsgLen;
+  myFifo.sCANMessage[myFifo.write].pui8MsgData = sCANMessage.pui8MsgData;
+  
   myFifo.write++;
   if (myFifo.write >= BUFFER_SIZE)
       myFifo.write = 0;
@@ -122,6 +128,7 @@ eFifoStatus_t can_FifoPop(tCANMsgObject *sCANMessage){
     myFifo.read = 0;
   return FIFO_SUCCESS;
 }
+
 
 //////////////////////
 //Set Red LED
