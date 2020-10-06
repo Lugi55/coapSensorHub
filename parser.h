@@ -18,19 +18,6 @@
 #include <datatypes.h>
 
 
-
-void parser_setup(  s0x1E3_Frame_t *_ps0x1E3_Frame,
-                    s0x2E3_Frame_t *_ps0x2E3_Frame,
-                    s0x3E3_Frame_t *_ps0x3E3_Frame,
-                    s0x4E3_Frame_t *_ps0x4E3_Frame,
-                    sModule_t *_psModule1,
-                    sModule_t *_psModule2,
-                    sModule_t *_psModule3,
-                    sModule_t *_psModule4,
-                    sModule_t *_psModule5,
-                    sModule_t *_psModule6,
-                    sModule_t *_psModule7);
-
 void parser_set_ps0x1E3_Frame(s0x1E3_Frame_t *_ps0x1E3_Frame);
 void parser_set_ps0x2E3_Frame(s0x2E3_Frame_t *_ps0x2E3_Frame);
 void parser_set_ps0x3E3_Frame(s0x3E3_Frame_t *_ps0x3E3_Frame);
